@@ -39,3 +39,7 @@ demo = gr.ChatInterface(
 
 if __name__ == "__main__":
     demo.launch(server_name="0.0.0.0", server_port=8080)
+
+from nanochat.model import NanoChatModel
+model = NanoChatModel.from_pretrained("Mo-Love/fpv-nanochat")
+response = model.generate(prompt, max_length=500)
