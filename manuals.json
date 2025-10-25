@@ -3,30 +3,21 @@
     "category": "FPV Drone",
     "title": "Betaflight ESC Guide",
     "file_path": "https://slhghhykqarbpsrqdjhm.supabase.co/storage/v1/object/public/fpv-manuals/betaflight-esc.pdf",
-    "content": "Кроки: 1. Підключіть ESC до Configurator. 2. Калібруйте throttle. 3. Перевірте прошивку...",
+    "content": "Кроки дебагу: 1. Підключіть ESC до Configurator. 2. Калібруйте throttle. 3. Перевірте прошивку. Рекомендація з IntoFPV: Зменште KV, якщо напруга висока.",
     "tags": ["betaflight", "esc", "calibration"]
   },
   {
     "category": "FPV Drone",
-    "title": "IntoFPV PID Tuning",
-    "file_path": "https://intofpv.com/t-pid-tuning",
-    "content": "Рекомендації: Зменште P-gain для вібрацій, перевірте blackbox-логи...",
-    "tags": ["betaflight", "pid", "tuning"]
+    "title": "Motor Overheating Guide",
+    "file_path": "https://slhghhykqarbpsrqdjhm.supabase.co/storage/v1/object/public/fpv-manuals/motor-overheating.pdf",
+    "content": "Кроки дебагу: 1. Перевірте вентиляцію. 2. Охолодіть мотори. 3. Рекомендація з Reddit: Перевірте KV і навантаження. Фрагмент: 'Overheating from poor ventilation or high throttle...' (перекладено).",
+    "tags": ["motor", "гріються", "overheating"]
   },
   {
     "category": "FPV Drone",
-    "title": "DJI FPV Motor Debug",
-    "file_path": "https://slhghhykqarbpsrqdjhm.supabase.co/storage/v1/object/public/fpv-manuals/dji-fpv-motor.pdf",
-    "content": "Перевірте прошивку через DJI Assistant, оновіть firmware...",
-    "tags": ["dji", "motor", "debug"]
-  }
-]
-[
-  {
-    "category": "FPV Drone",
-    "title": "Betaflight Motor Overheating Guide",
-    "file_path": "https://slhghhykqarbpsrqdjhm.supabase.co/storage/v1/object/public/fpv-manuals/motor-overheating.pdf",
-    "content": "Кроки дебагу: 1. Перевірте ESC і прошивку Betaflight. 2. Охолодіть мотори, перевірте навантаження. 3. Рекомендація з IntoFPV: Зменште KV, якщо напруга висока. Фрагмент з мануалу: 'Overheating often from poor ventilation or high throttle...' (перекладено).",
-    "tags": ["motor", "гріються", "overheating", "esc", "betaflight"]
+    "title": "PID Tuning Guide",
+    "file_path": "https://slhghhykqarbpsrqdjhm.supabase.co/storage/v1/object/public/fpv-manuals/pid-tuning.pdf",
+    "content": "Кроки: 1. Зменште P-gain для вібрацій. 2. Перевірте blackbox-логи. Рекомендація з Joshua Bardwell: Почніть з базових налаштувань.",
+    "tags": ["betaflight", "pid", "tuning"]
   }
 ]
