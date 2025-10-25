@@ -21,3 +21,12 @@
     "tags": ["dji", "motor", "debug"]
   }
 ]
+[
+  {
+    "category": "FPV Drone",
+    "title": "Betaflight Motor Overheating Guide",
+    "file_path": "https://slhghhykqarbpsrqdjhm.supabase.co/storage/v1/object/public/fpv-manuals/motor-overheating.pdf",
+    "content": "Кроки дебагу: 1. Перевірте ESC і прошивку Betaflight. 2. Охолодіть мотори, перевірте навантаження. 3. Рекомендація з IntoFPV: Зменште KV, якщо напруга висока. Фрагмент з мануалу: 'Overheating often from poor ventilation or high throttle...' (перекладено).",
+    "tags": ["motor", "гріються", "overheating", "esc", "betaflight"]
+  }
+]
