@@ -1,8 +1,14 @@
 import gradio as gr
-import psycopg2
-import os
 import fitz
 import requests
+import psycopg2
+import os
+
+# Підключення до Supabase через DATABASE_URL
+conn = psycopg2.connect(os.getenv("DATABASE_URL"))
+cursor = conn.cursor()
+
+# Решта коду без змін (chat_fn, extract_pdf_fragment тощо)
 
 # Supabase
 conn = psycopg2.connect(
