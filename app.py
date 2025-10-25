@@ -3,19 +3,6 @@ import psycopg2
 import os
 import fitz
 import requests
-from googletrans import Translator  # Безкоштовний Google Translate
-
-# Google Translate (без ключа)
-translator = Translator()
-
-# NanoChat (з заглушкою)
-try:
-    from nanochat_master.model import NanoGPT as NanoChatModel
-    model = NanoChatModel(vocab_size=50257, block_size=32, n_embd=64, n_head=4, n_layer=2)
-    model.eval()
-except Exception as e:
-    print(f"NanoChat error: {e}")
-    model = None
 
 # Supabase
 conn = psycopg2.connect(
@@ -39,6 +26,25 @@ def extract_pdf_fragment(file_path):
     except:
         return "Фрагмент недоступний"
 
+def translate_text(text, target_lang):
+    try:
+        url = "https://translate.googleapis.com/translate_a/single"
+        params = {
+            'client': 'gtx',
+            'sl': 'auto',
+            'tl': target_lang,
+            'dt': 't',
+            'q': text
+        }
+        response = requests.get(url, params=params)
+        if response.status_code == 200:
+            result = response.json()
+            translated = result[0][0][0]
+            return translated
+    except:
+        pass
+    return text  # Якщо помилка, повертаємо оригінал
+
 def chat_fn(message, history):
     # Визнач мову запиту
     lang = 'uk' if any(c in message.lower() for c in 'абвгґдеєжзиіїйклмнопрстуфхцчшщьюя') else 'en'
@@ -50,26 +56,18 @@ def chat_fn(message, history):
     context = "Знайдені мануали:\n"
     for title, file_path, content, tags in results:
         fragment = content if content else extract_pdf_fragment(file_path)
-        # Переклад, якщо потрібно (Google Translate)
+        # Переклад через Google API
         if ('ua' in tags and lang == 'en') or ('en' in tags and lang == 'uk'):
-            try:
-                translated = translator.translate(fragment, dest=target_lang)
-                fragment = translated.text
-            except:
-                pass
+            fragment = translate_text(fragment, target_lang)
         context += f"- [{title}]({file_path})\nФрагмент: {fragment}...\n"
     
-    if model:
-        prompt = f"Користувач: {message}\nКонтекст: {context}\nВідповідь: Чіткі кроки дебагу FPV мовою {lang}."
-        response = model.generate(prompt, max_length=500)
-    else:
-        response = f"Запит: {message}\n{context}\nКроки дебагу: (NanoChat у розробці)"
+    response = f"Запит: {message}\n{context}\nКроки дебагу: (NanoChat у розробці)"
     return response
 
 demo = gr.ChatInterface(
     fn=chat_fn,
     title="FPV Debug Bot (Betaflight Focus)",
-    description="Дебаг FPV-дронів: Betaflight, ESC, PID. Мануали з Supabase, переклад Google Translate."
+    description="Дебаг FPV-дронів: Betaflight, ESC, PID. Мануали з Supabase, переклад Google API."
 )
 
 if __name__ == "__main__":
