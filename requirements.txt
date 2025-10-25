@@ -1,8 +1,7 @@
-gradio==4.44.0
+gradio==4.31.0
 psycopg2-binary==2.9.9
 PyMuPDF==1.24.10
-torch==2.0.1
-googletrans==3.1.0a0
-numpy==1.24.3
-requests==2.31.0
-urllib3==1.26.18
+googletrans==4.0.0-rc1
+numpy==1.21.6
+requests==2.28.1
+urllib3==1.26.12
