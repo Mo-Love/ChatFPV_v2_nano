@@ -3,15 +3,13 @@ import psycopg2
 import os
 import fitz
 import requests
-from nanochat_master.model import NanoChatModel  # Імпорт із nanochat-master
+from nanochat_master.model import NanoChatModel
 
-# Завантаження NanoChat (заміни, якщо модель на Hugging Face Hub)
 try:
     model = NanoChatModel.from_pretrained("Mo-Love/fpv-nanochat")
 except:
-    model = None  # Заглушка
+    model = None
 
-# Підключення до Supabase
 conn = psycopg2.connect(
     dbname=os.getenv("DB_NAME"),
     user=os.getenv("DB_USER"),
