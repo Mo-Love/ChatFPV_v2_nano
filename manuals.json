@@ -1,0 +1,23 @@
+[
+  {
+    "category": "FPV Drone",
+    "title": "Betaflight ESC Guide",
+    "file_path": "https://slhghhykqarbpsrqdjhm.supabase.co/storage/v1/object/public/fpv-manuals/betaflight-esc.pdf",
+    "content": "Кроки: 1. Підключіть ESC до Configurator. 2. Калібруйте throttle. 3. Перевірте прошивку...",
+    "tags": ["betaflight", "esc", "calibration"]
+  },
+  {
+    "category": "FPV Drone",
+    "title": "IntoFPV PID Tuning",
+    "file_path": "https://intofpv.com/t-pid-tuning",
+    "content": "Рекомендації: Зменште P-gain для вібрацій, перевірте blackbox-логи...",
+    "tags": ["betaflight", "pid", "tuning"]
+  },
+  {
+    "category": "FPV Drone",
+    "title": "DJI FPV Motor Debug",
+    "file_path": "https://slhghhykqarbpsrqdjhm.supabase.co/storage/v1/object/public/fpv-manuals/dji-fpv-motor.pdf",
+    "content": "Перевірте прошивку через DJI Assistant, оновіть firmware...",
+    "tags": ["dji", "motor", "debug"]
+  }
+]
