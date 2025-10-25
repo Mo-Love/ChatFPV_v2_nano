@@ -49,6 +49,19 @@ class NanoGPT(nn.Module):
             loss = F.cross_entropy(logits, targets)
 
         return logits, loss
+    def generate(self, prompt, max_length=500):
+    # Токенізуй prompt
+    tokens = tokenizer.encode(prompt)
+    tokens = torch.tensor([tokens])
+    with torch.no_grad():
+        logits, _ = self(tokens)
+    # Генерація (top-k sampling)
+    for _ in range(max_length):
+        logits = self(tokens[:, -1:, :])  # Останній токен
+        probs = F.softmax(logits, dim=-1)
+        next_token = torch.multinomial(probs, 1)
+        tokens = torch.cat([tokens, next_token], dim=1)
+    return tokenizer.decode(tokens[0].tolist())
 
 class Block(nn.Module):
     def __init__(self, n_embd, n_head):
