@@ -1,24 +1,12 @@
 import gradio as gr
+import os
+import json
 import fitz
 import requests
-import psycopg2
-import os
 
-# Підключення до Supabase через DATABASE_URL
-conn = psycopg2.connect(os.getenv("DATABASE_URL"))
-cursor = conn.cursor()
-
-# Решта коду без змін (chat_fn, extract_pdf_fragment тощо)
-
-# Supabase
-conn = psycopg2.connect(
-    dbname=os.getenv("DB_NAME"),
-    user=os.getenv("DB_USER"),
-    password=os.getenv("DB_PASSWORD"),
-    host=os.getenv("DB_HOST"),
-    port="5432"
-)
-cursor = conn.cursor()
+# Завантаження мануалів з JSON
+with open("manuals.json", "r", encoding="utf-8") as f:
+    manuals = json.load(f)
 
 def extract_pdf_fragment(file_path):
     try:
@@ -32,40 +20,13 @@ def extract_pdf_fragment(file_path):
     except:
         return "Фрагмент недоступний"
 
-def translate_text(text, target_lang):
-    try:
-        url = "https://translate.googleapis.com/translate_a/single"
-        params = {
-            'client': 'gtx',
-            'sl': 'auto',
-            'tl': target_lang,
-            'dt': 't',
-            'q': text
-        }
-        response = requests.get(url, params=params)
-        if response.status_code == 200:
-            result = response.json()
-            translated = result[0][0][0]
-            return translated
-    except:
-        pass
-    return text  # Якщо помилка, повертаємо оригінал
-
 def chat_fn(message, history):
-    # Визнач мову запиту
-    lang = 'uk' if any(c in message.lower() for c in 'абвгґдеєжзиіїйклмнопрстуфхцчшщьюя') else 'en'
-    target_lang = 'en' if lang == 'uk' else 'uk'
-    
-    query = "SELECT title, file_path, content, tags FROM pdf_manuals WHERE tags @> ARRAY[%s]::varchar[]"
-    cursor.execute(query, (message.lower().split()[0],))
-    results = cursor.fetchall()
+    key_word = message.lower().split()[0]
+    results = [m for m in manuals if key_word in [tag for tag in m["tags"]]]
     context = "Знайдені мануали:\n"
-    for title, file_path, content, tags in results:
-        fragment = content if content else extract_pdf_fragment(file_path)
-        # Переклад через Google API
-        if ('ua' in tags and lang == 'en') or ('en' in tags and lang == 'uk'):
-            fragment = translate_text(fragment, target_lang)
-        context += f"- [{title}]({file_path})\nФрагмент: {fragment}...\n"
+    for m in results:
+        fragment = m["content"] if m["content"] else extract_pdf_fragment(m["file_path"])
+        context += f"- [{m['title']}]({m['file_path']})\nФрагмент: {fragment}...\n"
     
     response = f"Запит: {message}\n{context}\nКроки дебагу: (NanoChat у розробці)"
     return response
@@ -73,7 +34,7 @@ def chat_fn(message, history):
 demo = gr.ChatInterface(
     fn=chat_fn,
     title="FPV Debug Bot (Betaflight Focus)",
-    description="Дебаг FPV-дронів: Betaflight, ESC, PID. Мануали з Supabase, переклад Google API."
+    description="Дебаг FPV-дронів: Betaflight, ESC, PID. Мануали з JSON."
 )
 
 if __name__ == "__main__":
